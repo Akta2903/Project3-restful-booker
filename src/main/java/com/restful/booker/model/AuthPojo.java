@@ -1,15 +1,15 @@
 package com.restful.booker.model;
 
 public class AuthPojo {
-    private String userName ;
+    private String username ;
     private String password;
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -20,10 +20,10 @@ public class AuthPojo {
         this.password = password;
     }
 
-    public static AuthPojo getAuthPojo(String userName ,String password)
+    public static AuthPojo getAuthPojo(String username ,String password)
     {
         AuthPojo authPojo = new AuthPojo();
-        authPojo.setUserName(userName);
+        authPojo.setUsername(username);
         authPojo.setPassword(password);
         return authPojo;
     }

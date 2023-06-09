@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 @RunWith(SerenityRunner.class)
 public class AuthCreateTest extends AuthTestBase {
 
-    static String userName = "admin";
+    static String username = "admin";
     static String password = "password123";
     static String token;
      @Steps
@@ -25,15 +25,16 @@ public class AuthCreateTest extends AuthTestBase {
     @Test
     public  void  createAuthToken()
     {
-        AuthPojo authPojo = AuthPojo.getAuthPojo(userName,password);
+        AuthPojo authPojo = AuthPojo.getAuthPojo(username,password);
         ValidatableResponse response = SerenityRest.given()
                 .contentType(ContentType.JSON)
                 .body(authPojo)
                 .when()
                 .post("https://restful-booker.herokuapp.com/auth")
-                .then()
-                .extract().path("token");
-        token = response.toString();
+                .then();
+               // .extract().path("token");
+        token = response.extract().path("token");
+        System.out.println(token);
 
 
 

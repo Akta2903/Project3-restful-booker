@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class BookingSteps {
     @Step("Creating Authentication token with userName : {0},password : {1} ")
-    public ValidatableResponse createAuthToken(String userName, String password) {
+    public String createAuthToken(String userName , String password) {
         AuthPojo authPojo = AuthPojo.getAuthPojo(userName, password);
         return SerenityRest.given()
                 .header("Content-Type", "application/json")
@@ -27,7 +27,7 @@ public class BookingSteps {
     }
 
 
-    @Step("Creating booking with firstname : {0} ,lastname :{1} , totalprice : {2} , depositepaid : {3} ,bookingdates : {4},additionalneeds : {5}  ")
+        @Step("Creating booking with firstname : {0} ,lastname :{1} , totalprice : {2} , depositepaid : {3} ,bookingdates : {4},additionalneeds : {5}  ")
     public ValidatableResponse createBooking(String firstname, String lastname, int totalprice, boolean depositepaid, String additionalneeds, HashMap<String, String> bookingdates) {
         BookingPojo bookingPojo = BookingPojo.getBookingPojo(firstname, lastname, totalprice, depositepaid, bookingdates, additionalneeds);
         return SerenityRest.given()
@@ -66,7 +66,7 @@ public class BookingSteps {
     public ValidatableResponse updateBooking(int bookingID, String firstname, String lastname, int totalprice, boolean depositepaid, HashMap<String, String> bookingdates, String additionalneeds, String token) {
         BookingPojo bookingPojo = BookingPojo.getBookingPojo(firstname, lastname, totalprice, depositepaid, bookingdates, additionalneeds);
         return SerenityRest.given().log().all()
-                .header("Cookie:", token)
+                .header("Cookie","token="+token)
                 .contentType(ContentType.JSON)
                 .header("Accept", "application/json")
                 .pathParam("bookingID", bookingID)
@@ -77,10 +77,12 @@ public class BookingSteps {
     }
 
     @Step("Delete bookings with BookingId: {0}")
-    public ValidatableResponse deleteBookingWithBookingId(int bookingId, String token) {
-        return SerenityRest.given().log().ifValidationFails()
-                .header("Cookie:", token)
+    public ValidatableResponse deleteBookingWithBookingId(int bookingID, String token) {
+        return SerenityRest.given().log().all()
                 .contentType(ContentType.JSON)
+                .header("Accept", "application/json")
+                .header("Cookie","token="+token)
+                .pathParam("bookingID", bookingID)
                 .when()
                 .delete(EndPoints.DELETE_BOOKING_BY_ID)
                 .then();
